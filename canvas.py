@@ -2,7 +2,7 @@ import numpy as np, struct
 from binascii import *
 def hexify(hexString : str, prefix : bool):
         if prefix == True:
-            return hex(255)
+            return hex(hexString)
         if prefix == False:
             print(hexString)
             return hex(hexString).removeprefix("0x")
