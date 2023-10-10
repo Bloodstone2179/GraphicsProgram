@@ -1,10 +1,18 @@
-import png, numpy as np, canvas, struct
+import png, numpy as np, canvas, struct, time, multiprocessing
+from thread_custom import Thread
 
+
+def getData(startPoint_x, canv):
+    image_data = b""
+    for y in range(canv.height):
+        for i in canv[startPoint_x][y]:
+            image_data += i
+        print(y)
+    
 
 def WriteFile(filename: str, canvas: canvas.canvas):
+    print("Writing")
     canv = canvas.GetCanvas()
-    print(len(canv))
-    print(len(canv[0]))
     
     bmp_header = b'BM'  # Signature
     bmp_header += struct.pack('<I', 14 + 40 + (canvas.width * canvas.height * 3))  # File size
@@ -25,17 +33,22 @@ def WriteFile(filename: str, canvas: canvas.canvas):
     dib_header += b'\x00\x00\x00\x00'  # Number of colors in the palette (not used)
     dib_header += b'\x00\x00\x00\x00'  # Number of important colors (not used)
     image_data = b''
-    
+    start_time = time.time()
     for y in range(canvas.height):
         for x in range(canvas.width):
-            for i in canv[x][y]:#
+            for i in canv[x][y]:
                 image_data += i
+        print(f"PIXEL: (X: {x} , Y: {y})")
+    end_time = time.time() - start_time
+    print(f"Time Taken {format(str(end_time / 60), "02")} seconds")
+    
                 
     with open(filename, 'wb') as bmp_file:
         bmp_file.write(bmp_header)
         bmp_file.write(dib_header)
         bmp_file.write(image_data)
     image_data = ""
+    print("Written")
 def GetTheSizeOfImageInBytes(canvas_ : canvas.canvas):
     x, y = canvas_.width , canvas_.width
     bit_depth = canvas_.bit_depth
