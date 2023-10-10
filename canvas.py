@@ -91,6 +91,7 @@ class canvas:
                 for y in range(pointA[1], pointb[1] + 1):
                     self.WritePixel(x,y, LineColor)'''
     def draw_circle(self, center_x, center_y, radius, color: color_rgb or color_rgba):
+        
         x = radius
         y = 0
         error = 1 - x
@@ -113,33 +114,14 @@ class canvas:
             else:
                 x -= 1
                 error += 2 * (y - x) + 1
-            '''
-                for(float angle = 0.0f; angle < g_k2Pi; angle += 0.1f)
-                    glVertex2f(sinf(angle)*_rRadius,  cosf(angle)*_rRadius);
-            '''
+            
+               
     def DrawCircleFill(self, center_x, center_y, radius, color: color_rgb or color_rgba):
-        x = radius
-        y = 0
-        error = 1 - x
+        for x in range(center_x - radius, center_x + radius + 1):
+            for y in range(center_y - radius, center_y + radius + 1):
+                if (x - center_x) ** 2 + (y - center_y) ** 2 <= radius ** 2:
+                    self.WritePixel(x,y,color)
 
-        while x >= y:
-            self.WritePixel(center_y + y, center_x + x, color)
-            self.WritePixel(center_y + x, center_x + y, color)
-            self.WritePixel(center_y + x, center_x - y, color)
-            self.WritePixel(center_y + y, center_x - x, color)
-
-            self.WritePixel(center_y - y, center_x - x , color)
-            self.WritePixel(center_y - x, center_x - y , color)
-            self.WritePixel(center_y - x, center_x + y , color)
-            self.WritePixel(center_y - y, center_x + x , color)
-           
-
-            y += 1
-            if error < 0:
-                error += 2 * y + 1
-            else:
-                x -= 1
-                error += 2 * (y - x) + 1
     def GetCanvas(self, asStr = False):
         if asStr !=  True:
             return self.CanvasScreen

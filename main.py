@@ -1,12 +1,14 @@
-import canvas , FileWriter, multiprocessing
+import canvas , FileWriter, multiprocessing, os
 from canvas import *
-print(f"CPUS: {str(multiprocessing.cpu_count)} ")
+print(f"CPUS: {str(os.cpu_count())} ")
 '''
 r = int(input("Red Amount: ")) | 12
 g = int(input("Green Amount: ")) | 120
 b = int(input("Blue Amount: ")) | 123
 '''
-y = canvas(200, 100)
+y = canvas(300, 300)
+
+y.DrawCircleFill(50,50, 30, color_rgb(255, 224, 189))
 y.WritePixel(33, 50, color_rgb(255, 0, 0))
 y.WritePixel(67, 50, color_rgb(255, 0, 0))
 y.DrawLine((33,37), (66,37), color_rgb(0,0,0))
@@ -14,7 +16,10 @@ y.DrawLine((33,37), (66,37), color_rgb(0,0,0))
 y.DrawLine((25,45) ,(32,38), color_rgb(0,0,0))
 y.DrawLine((67,38) ,(74,45), color_rgb(0,0,0))
 y.draw_circle(11,11, 10, color_rgb(255,0,0))
-y.draw_circle(11,32, 10, color_rgb(255,10,0))
+y.draw_circle(11,32, 10, color_rgb(255,0,0))
+
+y.DrawCircleFill(67,50, 5, color_rgb(0,0,0))
+y.DrawCircleFill(33,50, 5, color_rgb(0,0,0))
 '''
 y.WritePixel(25, 45, color_rgb(0, 0, 0))
 y.WritePixel(26, 44, color_rgb(0, 0, 0))
