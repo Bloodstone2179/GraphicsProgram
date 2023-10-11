@@ -20,6 +20,11 @@ y.draw_circle(11,32, 10, color_rgb(255,0,0))
 
 y.DrawCircleFill(67,50, 5, color_rgb(0,0,0))
 y.DrawCircleFill(33,50, 5, color_rgb(0,0,0))
+
+
+y.DrawRect([70,70], [150,90], color_rgb(20,20,20))
+
+
 '''
 y.WritePixel(25, 45, color_rgb(0, 0, 0))
 y.WritePixel(26, 44, color_rgb(0, 0, 0))

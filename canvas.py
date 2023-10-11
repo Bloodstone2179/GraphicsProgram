@@ -121,7 +121,19 @@ class canvas:
             for y in range(center_y - radius, center_y + radius + 1):
                 if (x - center_x) ** 2 + (y - center_y) ** 2 <= radius ** 2:
                     self.WritePixel(x,y,color)
-
+    def DrawRectFill(self, bottomLeft : tuple or list, topRight  : tuple or list, color : color_rgb or color_rgba):
+        for y in range(bottomLeft[1], topRight[1]):
+            for x in range(bottomLeft[0], topRight[0]):
+                self.WritePixel(x,y, color)
+    def DrawRect(self, bottomLeft : tuple or list, topRight  : tuple or list, color : color_rgb or color_rgba):
+        for y in range(bottomLeft[1], topRight[1] + 1):
+            self.WritePixel(bottomLeft[0], y, color)
+        for x in range(bottomLeft[0], topRight[0] + 1):
+            self.WritePixel(x, bottomLeft[1], color)
+        for x in range(bottomLeft[0], topRight[0] + 1):
+            self.WritePixel(x, topRight[1], color)
+        for y in range(bottomLeft[1], topRight[1] + 1):
+            self.WritePixel(topRight[0], y, color)
     def GetCanvas(self, asStr = False):
         if asStr !=  True:
             return self.CanvasScreen
