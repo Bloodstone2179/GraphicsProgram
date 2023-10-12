@@ -34,11 +34,8 @@ def WriteFile(filename: str, canvas: canvas.canvas):
     dib_header += b'\x00\x00\x00\x00'  # Number of important colors (not used)
     image_data = b''
     start_time = time.time()
-    for y in range(canvas.height):
-        for x in range(canvas.width):
-            for i in canv[x][y]:
-                image_data += i
-        print(f"PIXEL: (X: {x} , Y: {y})")
+    
+        
     end_time = time.time() - start_time
     print(f"Time Taken {format(str(end_time / 60), "02")} seconds")
     
@@ -46,7 +43,13 @@ def WriteFile(filename: str, canvas: canvas.canvas):
     with open(filename, 'wb') as bmp_file:
         bmp_file.write(bmp_header)
         bmp_file.write(dib_header)
-        bmp_file.write(image_data)
+        for y in range(canvas.height):
+            for x in range(canvas.width):
+                for i in canv[x][y]:
+                    bmp_file.write(i)
+                    print(f"PIXEL: (X: {x} , Y: {y})")
+    end_time = time.time() - start_time
+    print(f"Time Taken {format(str(end_time / 60), "02")} seconds")
     image_data = ""
     print("Written")
 def GetTheSizeOfImageInBytes(canvas_ : canvas.canvas):
