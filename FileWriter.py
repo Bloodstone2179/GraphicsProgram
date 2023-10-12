@@ -39,7 +39,6 @@ def WriteFile(filename: str, canvas: canvas.canvas):
                 bmp_file.write(canv[x][y][1])
                 bmp_file.write(canv[x][y][2])
     print(f"Time Taken {time.time() - start_time} seconds")
-    image_data = ""
     print("Written")
 def GetTheSizeOfImageInBytes(canvas_ : canvas.canvas):
     x, y = canvas_.width , canvas_.width
