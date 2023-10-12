@@ -1,19 +1,41 @@
 import numpy as np, canvas, struct, time, multiprocessing
-from thread_custom import Thread
+import threading, queue
+multiprocessing.freeze_support()
+def process_row(row, results_queue:queue.Queue, lock):
+    string = b""
+    # Convert each element in the row (y-axis data) to a binary string
+    for x in row:
 
-
-def getData(startPoint_x, canv):
-    image_data = b""
-    for y in range(canv.height):
-        for i in canv[startPoint_x][y]:
-            image_data += i
-        print(y)
+        for y in x:
+              # Convert each element to a binary string
+            string += y[0] + y[1] + y[2]
     
+    
+    results_queue.put(string, False)
+
+def GetCanvasData(bmp_file, canv):
+    num_processes = 500
+    chunks = np.array_split(canv, num_processes, axis=0)
+    lock = threading.Lock()
+    result_queue = queue.Queue()
+    # Create and start threads
+    threads = []
+    for chunk in chunks:
+        thread = threading.Thread(target=process_row, args=(chunk, result_queue, lock))
+        thread.start()
+        threads.append(thread)
+    results = b""
+    # Wait for all threads to finish
+    for thread in threads:
+        thread.join()
+    while not result_queue.empty():
+       results = result_queue.get()
+    bmp_file.write(results)
+
 
 def WriteFile(filename: str, canvas: canvas.canvas):
     print("Writing")
     canv = canvas.GetCanvas()
-    
     bmp_header = b'BM'  # Signature
     bmp_header += struct.pack('<I', 14 + 40 + (canvas.width * canvas.height * 3))  # File size
     bmp_header += b'\x00\x00'  # Reserved
@@ -33,11 +55,7 @@ def WriteFile(filename: str, canvas: canvas.canvas):
     with open(filename, 'wb') as bmp_file:
         bmp_file.write(bmp_header)
         bmp_file.write(dib_header)
-        for y in range(canvas.height):
-            for x in range(canvas.width):
-                bmp_file.write(canv[x][y][0])
-                bmp_file.write(canv[x][y][1])
-                bmp_file.write(canv[x][y][2])
+        y = GetCanvasData(bmp_file, canv)
     print(f"Time Taken {time.time() - start_time} seconds")
     print("Written")
 def GetTheSizeOfImageInBytes(canvas_ : canvas.canvas):

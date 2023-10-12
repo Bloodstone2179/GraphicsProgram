@@ -1,6 +1,5 @@
-import canvas , FileWriter, multiprocessing, os,time
+import canvas , FileWriter, os,time
 from canvas import *
-print(f"CPUS: {str(os.cpu_count())} ")
 start = time.time()
 '''
 r = int(input("Red Amount: ")) | 12
@@ -27,9 +26,7 @@ y.DrawRect([70,70], [150,90], color_rgb(20,20,20), thickness=10)
 
 
 
-#draws a penis
-
-penis.DrawCircleFill(int(penis.width/2),int(penis.height/2), 100, color_rgb(0,0,0))
+#draws a penisenis.DrawCircleFill(int(penis.width/2),int(penis.height/2), 100, color_rgb(0,0,0))
 penis.DrawCircleFill(int(penis.width/2) + 200,int(penis.height/2), 100, color_rgb(0,0,0))
 penis.DrawRectFill([int(penis.width/2) + 50, int(penis.height/2)], [int(penis.width/2) + 150,int(penis.height/2) + 400], color_rgb(0,0,0))
 penis.draw_circle(int(penis.width/2),int(penis.height/2), 200, color_rgb(0,0,0), thickness=10)
