@@ -6,7 +6,7 @@ r = int(input("Red Amount: ")) | 12
 g = int(input("Green Amount: ")) | 120
 b = int(input("Blue Amount: ")) | 123
 '''
-y = canvas(300, 300)
+y = canvas(1920, 1920)
 
 y.DrawCircleFill(50,50, 30, color_rgb(255, 224, 189))
 y.WritePixel(33, 50, color_rgb(255, 0, 0))

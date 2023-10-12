@@ -51,7 +51,7 @@ class canvas:
         bluehex = bytes.fromhex(hexify(data.blue, False))
         redHex = bytes.fromhex(hexify(data.red, False))
         greenHex = bytes.fromhex(hexify(data.green, False))
-        print(f"Pixel X: {pixel_x} , PIXEL Y: {pixel_y}")
+        
         if pixel_x - 1 > self.width or pixel_y - 1 > self.height:
             print("Not In Bounds")
         else:

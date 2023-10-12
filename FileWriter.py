@@ -24,20 +24,10 @@ def WriteFile(filename: str, canvas: canvas.canvas):
     dib_header = struct.pack('<I', 40)  # DIB header size
     dib_header += struct.pack('<I', canvas.width)  # Image width
     dib_header += struct.pack('<I',canvas. height)  # Image height
-    dib_header += b'\x01\x00'  # Color planes (1)
-    dib_header += b'\x18\x00'  # Bits per pixel (24 bits)
-    dib_header += b'\x00\x00\x00\x00'  # Compression (none)
+    dib_header += b'\x01\x00\x18\x00\x00\x00\x00\x00'  # Color planes (1)
     dib_header += struct.pack('<I', canvas.width * canvas.height * 3)  # Image size (uncompressed)
-    dib_header += b'\x13\x0B\x00\x00'  # Horizontal resolution (2835 pixels/meter)
-    dib_header += b'\x13\x0B\x00\x00'  # Vertical resolution (2835 pixels/meter)
-    dib_header += b'\x00\x00\x00\x00'  # Number of colors in the palette (not used)
-    dib_header += b'\x00\x00\x00\x00'  # Number of important colors (not used)
-    image_data = b''
+    dib_header += b'\x13\x0B\x00\x00\x13\x0B\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
     start_time = time.time()
-    
-        
-    end_time = time.time() - start_time
-    print(f"Time Taken {format(str(end_time / 60), "02")} seconds")
     
                 
     with open(filename, 'wb') as bmp_file:
@@ -45,11 +35,10 @@ def WriteFile(filename: str, canvas: canvas.canvas):
         bmp_file.write(dib_header)
         for y in range(canvas.height):
             for x in range(canvas.width):
-                for i in canv[x][y]:
-                    bmp_file.write(i)
-                    print(f"PIXEL: (X: {x} , Y: {y})")
-    end_time = time.time() - start_time
-    print(f"Time Taken {format(str(end_time / 60), "02")} seconds")
+                bmp_file.write(canv[x][y][0])
+                bmp_file.write(canv[x][y][1])
+                bmp_file.write(canv[x][y][2])
+    print(f"Time Taken {time.time() - start_time} seconds")
     image_data = ""
     print("Written")
 def GetTheSizeOfImageInBytes(canvas_ : canvas.canvas):
