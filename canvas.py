@@ -70,6 +70,7 @@ class canvas:
             for x in range(pointA[0], pointb[0] + 1):
                 y = dy * (x - pointA[0])/dx + pointA[1];
                 self.WritePixel(x,y, LineColor)
+        
         '''if pointA[0] < pointb[0]:
             for x in range(pointA[0], pointb[0] + 1):
                 if pointA[1] < pointb[1]:
@@ -90,7 +91,7 @@ class canvas:
             for x in range(pointA[0], pointb[0] + 1):
                 for y in range(pointA[1], pointb[1] + 1):
                     self.WritePixel(x,y, LineColor)'''
-    def draw_circle(self, center_x, center_y, radius, color: color_rgb or color_rgba):
+    def draw_circle(self, center_x, center_y, radius, color: color_rgb or color_rgba, thickness: int = 1):
         
         x = radius
         y = 0
@@ -114,6 +115,9 @@ class canvas:
             else:
                 x -= 1
                 error += 2 * (y - x) + 1
+        if thickness > 1:
+            for i in range(0,thickness):
+                self.draw_circle(center_x,center_y,radius+i, color)
             
                
     def DrawCircleFill(self, center_x, center_y, radius, color: color_rgb or color_rgba):
@@ -125,7 +129,7 @@ class canvas:
         for y in range(bottomLeft[1], topRight[1]):
             for x in range(bottomLeft[0], topRight[0]):
                 self.WritePixel(x,y, color)
-    def DrawRect(self, bottomLeft : tuple or list, topRight  : tuple or list, color : color_rgb or color_rgba):
+    def DrawRect(self, bottomLeft : tuple or list, topRight  : tuple or list, color : color_rgb or color_rgba, thickness: int = 1):
         for y in range(bottomLeft[1], topRight[1] + 1):
             self.WritePixel(bottomLeft[0], y, color)
         for x in range(bottomLeft[0], topRight[0] + 1):
@@ -134,6 +138,9 @@ class canvas:
             self.WritePixel(x, topRight[1], color)
         for y in range(bottomLeft[1], topRight[1] + 1):
             self.WritePixel(topRight[0], y, color)
+        if thickness > 1:
+            for i in range(0,thickness):
+                self.DrawRect([bottomLeft[0] - i, bottomLeft[1] -i], [topRight[0] + i , topRight[1] + i], color)
     def GetCanvas(self, asStr = False):
         if asStr !=  True:
             return self.CanvasScreen
