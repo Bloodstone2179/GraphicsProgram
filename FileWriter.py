@@ -1,4 +1,4 @@
-import png, numpy as np, canvas, struct, time, multiprocessing
+import numpy as np, canvas, struct, time, multiprocessing
 from thread_custom import Thread
 
 
