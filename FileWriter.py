@@ -1,7 +1,14 @@
 import numpy as np, canvas, struct, time, multiprocessing
 import threading, queue
 multiprocessing.freeze_support()
-def process_row(row, results_queue:queue.Queue, lock):
+
+class thread_results:
+
+    rowData = []
+    def __init__(self, rows:int) -> None:
+        self.rowData = np.array([b""] * rows)
+
+def process_row(row, rows : thread_results, rowID):
     string = b""
     # Convert each element in the row (y-axis data) to a binary string
     for x in row:
@@ -11,26 +18,29 @@ def process_row(row, results_queue:queue.Queue, lock):
             string += y[0] + y[1] + y[2]
     
     
-    results_queue.put(string, False)
+    rows.rowData[rowID] += string
 
-def GetCanvasData(bmp_file, canv):
-    num_processes = 500
+def GetCanvasData(bmp_file, canv : np.ndarray):
+    num_processes = len(canv)
     chunks = np.array_split(canv, num_processes, axis=0)
     lock = threading.Lock()
-    result_queue = queue.Queue()
+    imageData = b""
     # Create and start threads
+    rows = thread_results(len(canv))
     threads = []
+    arrayIndex = 0
     for chunk in chunks:
-        thread = threading.Thread(target=process_row, args=(chunk, result_queue, lock))
+        thread = threading.Thread(target=process_row, args=(chunk, rows, arrayIndex))
+        arrayIndex += 1
         thread.start()
         threads.append(thread)
-    results = b""
     # Wait for all threads to finish
     for thread in threads:
         thread.join()
-    while not result_queue.empty():
-       results = result_queue.get()
-    bmp_file.write(results)
+    for i in rows.rowData:
+        imageData += i
+    print(imageData)
+    bmp_file.write(imageData)
 
 
 def WriteFile(filename: str, canvas: canvas.canvas):
